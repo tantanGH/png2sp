@@ -139,7 +139,7 @@ Input PNG file can be RGB PNG or RGBA transparent PNG either.
     #define SP_PALETTE_REG  ((volatile unsigned short*)0xE82200)
     #define PCG_DATA_REG    ((volatile unsigned short*)0xEB8000) 
 
-    /* set sprite palette */
+    // set sprite palette
     void setup_sp_palette(int palette_block, unsigned short* palette_data) {
         for (int i = 0; i < 16; i++) {
             SP_PALETTE_REG[ palette_block * 16 + i ] = palette_data[i];     // direct access
