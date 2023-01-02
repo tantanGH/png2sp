@@ -2,7 +2,7 @@ import argparse
 
 from PIL import Image
 
-def convert_png_to_sp(png_file,out_file,size=(16,16)):
+def convert_png_to_sp(png_file,out_format,out_file,size=(16,16)):
 
     # resize
     raw_image = Image.open(png_file)
@@ -24,45 +24,72 @@ def convert_png_to_sp(png_file,out_file,size=(16,16)):
     color15_image_bytes = color15_image.tobytes()
     color15_image_pallet = color15_image.getpalette()
 
-    # generate sprite dot data
-    sprite_dots = []
+    # generate sprite pattern array data
+    pattern_array = []
     for i,b in enumerate(color15_image_bytes):
         if (alpha[i] == 0):
-            sprite_dots.append("0")
+            pattern_array.append(0)
         else:
-            sprite_dots.append(str(b+1))
+            pattern_array.append(b+1)
 
-    # output sprite dot data
-    for y in range(16):
-        a = ",".join(sprite_dots[y*16:y*16+16])
-        print("    "+a+",")
+    if out_format == "b":
 
-    print()
+        # output pattern array data
+        print("/* sprite data */")
+        for y in range(16):
+            s = [str(n) for n in pattern_array[ y * 16 : (y+1) * 16 ]]
+            print(",".join(s)+",")
+    
+    else:
 
-    print("  0,",end="")
+        # convert dot data to raw pattern data
+        pattern_data = [ 0 ] * 128
+        for y in range(8):
+            for x in range(4):
+                pattern_data[ 0x00 + y*4 + x ] = ( pattern_array[ (y+0)*16 + (x+0)*2 ] << 4 ) | ( pattern_array[ (y+0)*16 + (x+0)*2 + 1])
+                pattern_data[ 0x20 + y*4 + x ] = ( pattern_array[ (y+8)*16 + (x+0)*2 ] << 4 ) | ( pattern_array[ (y+8)*16 + (x+0)*2 + 1])
+                pattern_data[ 0x40 + y*4 + x ] = ( pattern_array[ (y+0)*16 + (x+4)*2 ] << 4 ) | ( pattern_array[ (y+0)*16 + (x+4)*2 + 1])
+                pattern_data[ 0x60 + y*4 + x ] = ( pattern_array[ (y+8)*16 + (x+4)*2 ] << 4 ) | ( pattern_array[ (y+8)*16 + (x+4)*2 + 1])
 
+        # output raw pattern data
+        print("/* sprite data */")
+        for y in range(8):
+            tuples = [ tuple( pattern_data[ y * 16 : (y+1) * 16 ]) for i in range(0, 16, 2)]
+            s = [ '0x' + format(t[0],'02x') + format(t[1],'02x') for t in tuples ]
+            print(",".join(s)+",")
+
+
+
+    # generate palette data
+    palette_data = []
+    palette_data.append(0)      # palette 0 = transparent code
     for i in range(15):
         r = color15_image_pallet[ i * 3 + 0 ]
         g = color15_image_pallet[ i * 3 + 1 ]
         b = color15_image_pallet[ i * 3 + 2 ]
         rgb555 = ((g>>3)<<11) | ((r>>3)<<6) | ((b>>3)<<1) | 1
-        print(f"{hex(rgb555)},",end="")
+        palette_data.append(rgb555)
 
+    # output palette data
     print()
-
+    print("/* palette data */")
+    s = [ '0x' + format(p,'04x') for p in palette_data ]
+    print(",".join(s)+",")
+    print()
 
 def main():
 
     parser = argparse.ArgumentParser()
 
     parser.add_argument("infile",help="input PNG file")
+    parser.add_argument("-f","--format",help="output format (b:X-BASIC, r:raw)",default="b")
     parser.add_argument("-o","--outfile",help="output file")
     parser.add_argument("-x","--width",help="sprite width (default:16)",type=int,default=16)
     parser.add_argument("-y","--height",help="sprite height (default:16)",type=int,default=16)
 
     args = parser.parse_args()
 
-    convert_png_to_sp(args.infile,args.outfile,(args.width,args.height))
+    convert_png_to_sp(args.infile,args.format,args.outfile,(args.width,args.height))
 
 
 if __name__ == "__main__":
