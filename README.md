@@ -134,12 +134,16 @@ Input PNG file can be RGB PNG or RGBA transparent PNG either.
 
 ### 定義例
 
+スーパーバイザモードで実行のこと
+
+    #define SP_PALETTE_REG  ((volatile unsigned short*)0xE82200)
     #define PCG_DATA_REG    ((volatile unsigned short*)0xEB8000) 
 
     /* set sprite palette */
     void setup_sp_palette(int palette_block, unsigned short* palette_data) {
         for (int i = 0; i < 16; i++) {
-            SPALET(0x80000000 | i, palette_block, palette_data[i]);
+            SP_PALETTE_REG[ palette_block * 16 + i ] = palette_data[i];     // direct access
+            //SPALET(0x80000000 | i, palette_block, palette_data[i]);       // = IOCS call
         }
     }
 
@@ -147,7 +151,8 @@ Input PNG file can be RGB PNG or RGBA transparent PNG either.
     void setup_sp_patterns(int pattern_number, unsigned short* pattern_data, int pattern_count) {
         for (int i = 0; i < pattern_count; i++) {
             for (int j = 0; j < 0x40; j++) {
-                PCG_DATA_REG[ ( pattern_number + i )  * 0x40 + j ] = pattern_data[ i * 0x40 + j];
+                PCG_DATA_REG[ ( pattern_number + i )  * 0x40 + j ] = pattern_data[ i * 0x40 + j];   // direct access 
+                //SP_DEFCG(pattern_number, 1, (unsigned char*)pattern_data);                        // = IOCS call
             }
         }
     }
