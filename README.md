@@ -1,2 +1,2 @@
-# svg2sp
-SVG/PNG format data to X68k sprite data converter
+# png2sp
+Transparent PNG data to X68k sprite data converter
