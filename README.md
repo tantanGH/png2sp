@@ -9,7 +9,7 @@ Transparent PNG data to X68k sprite data converter
 
     png2sp [options] <input-png-file>
 
-Input movie file can be .mp4 or .avi either.
+Input PNG file can be RGB PNG or RGBA transparent PNG either.
 
     options:
         -o [output-file] ... 出力先テキストファイル名 指定しない場合は標準出力
