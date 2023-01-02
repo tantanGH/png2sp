@@ -128,7 +128,7 @@ Input PNG file can be RGB PNG or RGBA transparent PNG either.
 
 ![](demo1.png)
 
-![](demo2.png)
+![](demo2.gif)
 
 
 ### Windowsユーザ向けPython導入ガイド
