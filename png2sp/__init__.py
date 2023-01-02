@@ -1,1 +1,1 @@
-from svg2sp.svg2sp import *
+from png2sp.png2sp import *
