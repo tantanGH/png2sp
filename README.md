@@ -124,6 +124,12 @@ Input PNG file can be RGB PNG or RGBA transparent PNG either.
     };
 
 
+### 変換例 (PowerPointで透過PNGを生成後、変換)
+
+![](demo1.png)
+
+![](demo2.png)
+
 
 ### Windowsユーザ向けPython導入ガイド
 
