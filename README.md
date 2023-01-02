@@ -17,6 +17,7 @@ Input PNG file can be RGB PNG or RGBA transparent PNG either.
         -x [width]       ... 横サイズ 16の倍数であること
         -y [height]      ... 縦サイズ 16の倍数であること
 
+---
 
 ### 出力例(raw形式, デフォルト16x16サイズ)
 
@@ -42,6 +43,7 @@ Input PNG file can be RGB PNG or RGBA transparent PNG either.
 
 直接PCG RAMに書くことができます。
 
+---
 
 ### 出力例 (X-BASIC like 形式, デフォルト16x16サイズ)
 
@@ -74,6 +76,7 @@ Input PNG file can be RGB PNG or RGBA transparent PNG either.
 
 ドットを微調整したい場合などはこちらが便利です。ただしPCG定義を行う際に変換が必要です。
 
+---
 
 ### 出力例 (raw形式, 32x32指定 = 4つの16x16パターン)
 
@@ -127,12 +130,37 @@ Input PNG file can be RGB PNG or RGBA transparent PNG either.
         0x0000,0xef3d,0x9ca9,0x0001,0x631b,0xbdb1,0xc5f5,0x7ba1,0x294d,0x83e3,0x9ceb,0x9ceb,0xe6fb,0xa4eb,0xe6fb,0x5ad9,
     };
 
+---
 
-### 変換例 (PowerPointで透過PNGを生成後、変換)
+### 定義例
+
+    #define PCG_DATA_REG    ((volatile unsigned short*)0xEB8000) 
+
+    /* set sprite palette */
+    void setup_sp_palette(int palette_block, unsigned short* palette_data) {
+        for (int i = 0; i < 16; i++) {
+            SPALET(0x80000000 | i, palette_block, palette_data[i]);
+        }
+    }
+
+    // set sprite patterns
+    void setup_sp_patterns(int pattern_number, unsigned short* pattern_data, int pattern_count) {
+        for (int i = 0; i < pattern_count; i++) {
+            for (int j = 0; j < 0x40; j++) {
+                PCG_DATA_REG[ ( pattern_number + i)  * 0x40 + j ] = pattern_data[ i * 0x40 + j];
+            }
+        }
+    }
+
+---
+
+### 変換実行サンプル (PowerPointで透過PNGを生成後、変換)
 
 ![](demo1.png)
 
 ![](demo2.gif)
+
+---
 
 
 ### Windowsユーザ向けPython導入ガイド
