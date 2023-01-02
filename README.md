@@ -20,7 +20,7 @@ Input PNG file can be RGB PNG or RGBA transparent PNG either.
 
 ### 出力例(raw形式, デフォルト16x16サイズ)
 
-`$ png2sp -f b ball5.png`
+`$ png2sp -f r ball5.png`
 
     unsigned short sp_pattern_data[] = {
 
