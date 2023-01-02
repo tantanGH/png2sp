@@ -147,9 +147,23 @@ Input PNG file can be RGB PNG or RGBA transparent PNG either.
     void setup_sp_patterns(int pattern_number, unsigned short* pattern_data, int pattern_count) {
         for (int i = 0; i < pattern_count; i++) {
             for (int j = 0; j < 0x40; j++) {
-                PCG_DATA_REG[ ( pattern_number + i)  * 0x40 + j ] = pattern_data[ i * 0x40 + j];
+                PCG_DATA_REG[ ( pattern_number + i )  * 0x40 + j ] = pattern_data[ i * 0x40 + j];
             }
         }
+    }
+
+    // set basic sprite pattern
+    void setup_sp_pattern_basic(int pattern_number, unsigned char* pattern_array) {
+        unsigned char pattern_data[ 0x80 ];
+        for (int y = 0; y < 8; y++) {
+            for (int x = 0; x < 4; x++) {
+                pattern_data[ 0x00 + y*4 + x ] = ( pattern_array[ (y+0)*16 + (x+0)*2 ] << 4 ) | ( pattern_array[ (y+0)*16 + (x+0)*2 + 1]);
+                pattern_data[ 0x20 + y*4 + x ] = ( pattern_array[ (y+8)*16 + (x+0)*2 ] << 4 ) | ( pattern_array[ (y+8)*16 + (x+0)*2 + 1]);
+                pattern_data[ 0x40 + y*4 + x ] = ( pattern_array[ (y+0)*16 + (x+4)*2 ] << 4 ) | ( pattern_array[ (y+0)*16 + (x+4)*2 + 1]);
+                pattern_data[ 0x60 + y*4 + x ] = ( pattern_array[ (y+8)*16 + (x+4)*2 ] << 4 ) | ( pattern_array[ (y+8)*16 + (x+4)*2 + 1]);
+            }
+        }
+        setup_sp_pattern(pattern_number, (unsigned short*)pattern_data, 1);
     }
 
 ---
