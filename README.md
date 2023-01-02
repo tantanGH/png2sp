@@ -17,8 +17,6 @@ Input movie file can be .mp4 or .avi either.
         -x [width]       ... 横サイズ 16の倍数であること
         -y [height]      ... 縦サイズ 16の倍数であること
 
-Note that you need to add mov2gif installed folder to your PATH environment variable.
-
 
 ### 出力例(raw形式, デフォルト16x16サイズ)
 
