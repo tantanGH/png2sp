@@ -126,7 +126,7 @@ def main():
 
     parser.add_argument("infile",help="input PNG file")
     parser.add_argument("-o","--outfile",help="output file")
-    parser.add_argument("-f","--format",help="output format (b:X-BASIC, r:raw)",default="b")
+    parser.add_argument("-f","--format",help="output format (b:X-BASIC, r:raw)",default="r")
     parser.add_argument("-x","--width",help="sprite width (default:16)",type=int,default=16)
     parser.add_argument("-y","--height",help="sprite height (default:16)",type=int,default=16)
 
