@@ -5,6 +5,8 @@ Transparent PNG data to X68k sprite data converter
 
     pip install git+https://github.com/tantanGH/png2sp.git
 
+[Windowsユーザ向けPython導入ガイド](https://github.com/tantanGH/distribution/blob/main/windows_python_for_x68k.md)
+
 ### Usage
 
     png2sp [options] <input-png-file>
@@ -176,20 +178,15 @@ Input PNG file can be RGB PNG or RGBA transparent PNG either.
 
 ### 変換実行サンプル (PowerPointで透過PNGを生成後、変換)
 
-![](demo1.png)
+![](images/demo1.png)
 
 パワポで「図形として保存」を選択すると透過PNG形式で保存できます。
 
-![](demo2.gif)
+![](images/demo2.gif)
 
 
-![](demo3.png)
+![](images/demo3.png)
 
-![](demo4.png)
+![](images/demo4.png)
 
 ---
-
-
-### Windowsユーザ向けPython導入ガイド
-
-[詳細な日本語での導入ガイド](https://github.com/tantanGH/distribution/blob/main/windows_python_for_x68k.md)
