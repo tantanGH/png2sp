@@ -2,14 +2,18 @@ import argparse
 
 from PIL import Image
 
-def convert_png_to_sp(png_file,out_file,out_format='r',size=(16,16)):
+def convert_png_to_sp(png_file,out_file,out_format='r',size=(16,16),aspect=None):
 
     # resize
     raw_image = Image.open(png_file)
+    if aspect:
+      aspect_size = ( raw_image.width * 2 // 3, raw_image.height )
+      raw_image = raw_image.resize(aspect_size)
+
     resize_image = raw_image.convert('RGBA').resize(size)
     resize_image_bytes = resize_image.tobytes()
 
-    # extract alpha channel
+    # extract alpha channelq
     alpha = []
     for i,b in enumerate(resize_image_bytes):
         if (i % 4) == 3:
@@ -129,10 +133,11 @@ def main():
     parser.add_argument("-f","--format",help="output format (b:X-BASIC, r:raw)",default="r")
     parser.add_argument("-x","--width",help="sprite width (default:16)",type=int,default=16)
     parser.add_argument("-y","--height",help="sprite height (default:16)",type=int,default=16)
+    parser.add_argument("-a","--aspect",help="resize source image to 2:3",action='store_true',default=False)
 
     args = parser.parse_args()
 
-    convert_png_to_sp(args.infile,args.outfile,args.format,(args.width,args.height))
+    convert_png_to_sp(args.infile,args.outfile,args.format,(args.width,args.height),args.aspect)
 
 
 if __name__ == "__main__":

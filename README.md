@@ -16,6 +16,7 @@ Input PNG file can be RGB PNG or RGBA transparent PNG either.
         -f [format]      ... r: unsigned short 配列として出力  b: 1ドットごとの unsigned char 配列として出力
         -x [width]       ... 横サイズ 16の倍数であること
         -y [height]      ... 縦サイズ 16の倍数であること
+        -a               ... 256x256,512x512などの横長ピクセルモードでの利用を想定し、元画像を一旦2:3の縦長にしてから処理します
 
 ---
 
