@@ -179,6 +179,11 @@ Input PNG file can be RGB PNG or RGBA transparent PNG either.
 
 ![](demo2.gif)
 
+
+![](demo3.png)
+
+![](demo4.png)
+
 ---
 
 
