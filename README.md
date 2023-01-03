@@ -177,6 +177,8 @@ Input PNG file can be RGB PNG or RGBA transparent PNG either.
 
 ![](demo1.png)
 
+パワポで「図形として保存」を選択すると透過PNG形式で保存できます。
+
 ![](demo2.gif)
 
 
