@@ -12,7 +12,7 @@ setuptools.setup(
     description="Transparent PNG to X68k sprite data converter",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/tantanGH/svg2sp",
+    url="https://github.com/tantanGH/png2sp",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
