@@ -145,7 +145,7 @@ def convert_png_to_dump(png_file,out_file):
         pixels = []
 
   if len(pixels) > 0:
-    output_lines.append(",".join(pixels) + ",")
+    output_lines.append("    " + ",".join(pixels) + ",")
     pixels = []    
 
   output_lines.append("};")
