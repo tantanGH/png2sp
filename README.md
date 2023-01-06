@@ -15,16 +15,17 @@ Input PNG file can be RGB PNG or RGBA transparent PNG either.
 
     options:
         -o [output-file] ... 出力先テキストファイル名 指定しない場合は標準出力
-        -f [format]      ... r: unsigned short 配列として出力  b: 1ドットごとの unsigned char 配列として出力
+        -b               ... X-BASIC ライクな 1ドットごとの unsigned char 配列として出力 (default:False)
         -x [width]       ... 横サイズ 16の倍数であること
         -y [height]      ... 縦サイズ 16の倍数であること
-        -a               ... 256x256,512x512などの横長ピクセルモードでの利用を想定し、元画像を一旦2:3の縦長にしてから処理します
+        -a               ... 256x256,512x512などの横長ピクセルでの利用を想定し、元画像を一旦2:3の縦長にしてから処理 (default:False)
+        -d               ... スプライトパターンではなく 65536 GVRAM に直接描くビットマップ配列として出力
 
 ---
 
 ### 出力例(raw形式, デフォルト16x16サイズ)
 
-`$ png2sp -f r ball5.png`
+`$ png2sp ball5.png`
 
     unsigned short sp_pattern_data[] = {
 
@@ -50,7 +51,7 @@ Input PNG file can be RGB PNG or RGBA transparent PNG either.
 
 ### 出力例 (X-BASIC like 形式, デフォルト16x16サイズ)
 
-`$ png2sp -f b ball5.png`
+`$ png2sp -b ball5.png`
 
     /* sprite pattern data 0 */
     unsigned char sp_pattern_data_0[] = {
@@ -83,7 +84,7 @@ Input PNG file can be RGB PNG or RGBA transparent PNG either.
 
 ### 出力例 (raw形式, 32x32指定 = 4つの16x16パターン)
 
-`$ png2sp -f r -x 32 -y 32 ball5.png`
+`$ png2sp -x 32 -y 32 ball5.png`
 
     unsigned short sp_pattern_data[] = {
 
