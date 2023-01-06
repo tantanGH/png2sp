@@ -122,33 +122,42 @@ def convert_png_to_sp(png_file,out_file,basic_format,size=(16,16),aspect=None):
 
 def convert_png_to_dump(png_file,out_file):
 
-    # open raw image
-    raw_image = Image.open(png_file).convert("RGB")
-    raw_image_bytes = raw_image.tobytes()
+  # open raw image
+  raw_image = Image.open(png_file).convert("RGB")
+  raw_image_bytes = raw_image.tobytes()
 
-    # output lines
-    output_lines = []
-    output_lines.append("")
-    output_lines.append(f"unsigned short dump_data[] = {{")
+  # output lines
+  output_lines = []
+  output_lines.append("")
+  output_lines.append(f"unsigned short dump_data[] = {{")
 
-    # dump data
-    pixels = []
-    for i,b in enumerate(raw_image_bytes):
-      if ( i % 3 ) == 2:
-        r = raw_image_bytes [ i - 2 ]
-        g = raw_image_bytes [ i - 1 ]
-        b = raw_image_bytes [ i - 0 ]
-        rgb555 = ((g>>3)<<11) | ((r>>3)<<6) | ((b>>3)<<1) | 1
-        pixels.append('0x' + format(rgb555, '04x'))
-        if ( i % 36 ) == 35:
-          output_lines.append(",".join(pixels) + ",")
-          pixels = []
+  # dump data
+  pixels = []
+  for i,b in enumerate(raw_image_bytes):
+    if ( i % 3 ) == 2:
+      r = raw_image_bytes [ i - 2 ]
+      g = raw_image_bytes [ i - 1 ]
+      b = raw_image_bytes [ i - 0 ]
+      rgb555 = ((g>>3)<<11) | ((r>>3)<<6) | ((b>>3)<<1) | 1
+      pixels.append('0x' + format(rgb555, '04x'))
+      if ( i % 36 ) == 35:
+        output_lines.append(",".join(pixels) + ",")
+        pixels = []
 
-    if len(pixels) > 0:
-      output_lines.append(",".join(pixels) + ",")
-      pixels = []    
+  if len(pixels) > 0:
+    output_lines.append(",".join(pixels) + ",")
+    pixels = []    
 
-    output_lines.append("};")
+  output_lines.append("};")
+
+  # output to file or stdout
+  if out_file == None:
+    for l in output_lines:
+      print(l)
+  else:
+    with open(out_file, "w") as f:
+      for l in output_lines:
+        f.write(l+"\n")
 
 def main():
 
