@@ -139,6 +139,8 @@ def convert_png_to_dump(png_file,out_file):
       g = raw_image_bytes [ i - 1 ]
       b = raw_image_bytes [ i - 0 ]
       rgb555 = ((g>>3)<<11) | ((r>>3)<<6) | ((b>>3)<<1) | 0
+      if rgb555 != 0:
+        rgb555 += 1
       pixels.append('0x' + format(rgb555, '04x'))
       if ( i % 36 ) == 35:
         output_lines.append("    " + ",".join(pixels) + ",")
