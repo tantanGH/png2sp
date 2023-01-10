@@ -120,10 +120,10 @@ def convert_png_to_sp(png_file,out_file,basic_format,size=(16,16),aspect=None):
       for l in output_lines:
         f.write(l+"\n")
 
-def convert_png_to_gvram(png_file,out_file):
+def convert_png_to_gvram(png_file,out_file,size=(16,16)):
 
   # open raw image
-  raw_image = Image.open(png_file).convert("RGB")
+  raw_image = Image.open(png_file).convert('RGB').resize(size)
   raw_image_bytes = raw_image.tobytes()
 
   # output lines
@@ -161,10 +161,10 @@ def convert_png_to_gvram(png_file,out_file):
       for l in output_lines:
         f.write(l+"\n")
 
-def convert_png_to_tvram(png_file,out_file):
+def convert_png_to_tvram(png_file,out_file,size=(16,16)):
 
   # open raw image
-  raw_image = Image.open(png_file).convert("RGB")
+  raw_image = Image.open(png_file).convert("RGB").resize(size)
   raw_image_bytes = raw_image.tobytes()
 
   # output lines (we don't use byte array because gcc may optimize it as string literal)
@@ -223,9 +223,9 @@ def main():
     args = parser.parse_args()
 
     if args.text:
-      convert_png_to_tvram(args.infile,args.outfile)
+      convert_png_to_tvram(args.infile,args.outfile,(args.width,args.height))
     elif args.dump:
-      convert_png_to_gvram(args.infile,args.outfile)
+      convert_png_to_gvram(args.infile,args.outfile,(args.width,args.height))
     else:
       convert_png_to_sp(args.infile,args.outfile,args.basic,(args.width,args.height),args.aspect)
 
