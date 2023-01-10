@@ -120,7 +120,7 @@ def convert_png_to_sp(png_file,out_file,basic_format,size=(16,16),aspect=None):
       for l in output_lines:
         f.write(l+"\n")
 
-def convert_png_to_dump(png_file,out_file):
+def convert_png_to_gvram(png_file,out_file):
 
   # open raw image
   raw_image = Image.open(png_file).convert("RGB")
@@ -161,6 +161,52 @@ def convert_png_to_dump(png_file,out_file):
       for l in output_lines:
         f.write(l+"\n")
 
+def convert_png_to_tvram(png_file,out_file):
+
+  # open raw image
+  raw_image = Image.open(png_file).convert("RGB")
+  raw_image_bytes = raw_image.tobytes()
+
+  # output lines (we don't use byte array because gcc may optimize it as string literal)
+  output_lines = []
+  output_lines.append("")
+  output_lines.append(f"unsigned short dump_data[] = {{")
+
+  # dump data
+  pixels = []
+  p = 0
+  for i,b in enumerate(raw_image_bytes):
+
+    if ( i % 3 ) == 2:
+      r = raw_image_bytes [ i - 2 ]
+      g = raw_image_bytes [ i - 1 ]
+      b = raw_image_bytes [ i - 0 ]
+      if ( r + g + b ) > ( 128 + 128 + 128 ):
+        p = ( p << 1 ) | 1
+      else:
+        p = ( p << 1 )
+      if ( i % ( 16 * 3 )) == 16 * 3 - 1:
+        pixels.append(format(p,"04x"))
+        p = 0
+      if ( i % ( 16 * 36 )) == 16 * 36 - 1: 
+        output_lines.append("    " + ",".join(pixels) + ",")
+        pixels = []
+
+  if len(pixels) > 0:
+    output_lines.append("    " + ",".join(pixels) + ",")
+    pixels = []    
+
+  output_lines.append("};")
+
+  # output to file or stdout
+  if out_file == None:
+    for l in output_lines:
+      print(l)
+  else:
+    with open(out_file, "w") as f:
+      for l in output_lines:
+        f.write(l+"\n")
+
 def main():
 
     parser = argparse.ArgumentParser()
@@ -172,11 +218,14 @@ def main():
     parser.add_argument("-y","--height",help="sprite height (default:16)",type=int,default=16)
     parser.add_argument("-a","--aspect",help="resize source image to 2:3",action='store_true',default=False)
     parser.add_argument("-d","--dump",help="output in GVRAM dump format",action='store_true',default=False)
+    parser.add_argument("-t","--text",help="output in TVRAM dump format",action='store_true',default=False)
 
     args = parser.parse_args()
 
-    if args.dump:
-      convert_png_to_dump(args.infile,args.outfile)
+    if args.text:
+      convert_png_to_tvram(args.infile,args.outfile)
+    elif args.dump:
+      convert_png_to_gvram(args.infile,args.outfile)
     else:
       convert_png_to_sp(args.infile,args.outfile,args.basic,(args.width,args.height),args.aspect)
 

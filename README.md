@@ -19,7 +19,7 @@ Input PNG file can be RGB PNG or RGBA transparent PNG either.
         -x [width]       ... 横サイズ 16の倍数であること
         -y [height]      ... 縦サイズ 16の倍数であること
         -a               ... 256x256,512x512などの横長ピクセルでの利用を想定し、元画像を一旦2:3の縦長にしてから処理 (default:False)
-        -d               ... スプライトパターンではなく 65536 GVRAM に直接描くビットマップ配列として出力
+        -d               ... スプライトパターンではなく 65536色で GVRAM に直接描くビットマップ配列として出力
 
 ---
 
