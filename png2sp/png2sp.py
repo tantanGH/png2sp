@@ -186,7 +186,7 @@ def convert_png_to_tvram(png_file,out_file):
       else:
         p = ( p << 1 )
       if ( i % ( 16 * 3 )) == 16 * 3 - 1:
-        pixels.append(format(p,"04x"))
+        pixels.append("0x"+format(p,"04x"))
         p = 0
       if ( i % ( 16 * 36 )) == 16 * 36 - 1: 
         output_lines.append("    " + ",".join(pixels) + ",")
