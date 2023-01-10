@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="png2sp",
-    version="0.0.7",
+    version="0.0.8",
     author="tantanGH",
     author_email="tantanGH@github",
     license='MIT',

@@ -81,13 +81,13 @@ def convert_png_to_sp(png_file,out_file,basic_format,size=(16,16),aspect=None):
             pattern_data[ 0x40 + y*4 + x ] = ( pattern_array[ ofs + (y+0) * width + (x+4)*2 ] << 4 ) | ( pattern_array[ ofs + (y+0) * width + (x+4)*2 + 1])
             pattern_data[ 0x60 + y*4 + x ] = ( pattern_array[ ofs + (y+8) * width + (x+4)*2 ] << 4 ) | ( pattern_array[ ofs + (y+8) * width + (x+4)*2 + 1])
 
-          # output raw pattern data
-          output_lines.append("")
-          output_lines.append(f"    /* sprite pattern data {pattern_id} */")
-          for y in range(8):
-            tuples = [ tuple( pattern_data[ y * 16 + x * 2 : y * 16 + x * 2 + 2 ]) for x in range(8)]
-            s = [ '0x' + format(t[0],'02x') + format(t[1],'02x') for t in tuples ]
-            output_lines.append("    " + ",".join(s) + ",")
+        # output raw pattern data
+        output_lines.append("")
+        output_lines.append(f"    /* sprite pattern data {pattern_id} */")
+        for y in range(8):
+          tuples = [ tuple( pattern_data[ y * 16 + x * 2 : y * 16 + x * 2 + 2 ]) for x in range(8)]
+          s = [ '0x' + format(t[0],'02x') + format(t[1],'02x') for t in tuples ]
+          output_lines.append("    " + ",".join(s) + ",")
 
   if basic_format is False:
     output_lines.append("};")
